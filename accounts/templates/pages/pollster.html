@@ -1,0 +1,40 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %}Pollster{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="pollster">
+        <div class="card">
+            <div class="card-header">
+                <h2>Create a Poll</h2>
+            </div>
+            <div class="card-body">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <p>Poll:</p>
+                    <textarea name="poll-desc" cols="70" rows="5" required></textarea>
+                    <hr>
+                    <p>Select State:</p>
+                    <select name="state">
+                        
+                        {% for state in states %}
+                        <option value="{{state.State_Name}}">{{state.State_Name}}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+            <div class="card-footer">
+                <input type="submit" value="Add" class="btn btn-primary">
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

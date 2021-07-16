@@ -1,0 +1,55 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %}Add User{% endblock %}
+{% block body %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header" style="padding-left: 40px;">
+            <h3>Add Candidate</h3>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body" style="padding-left: 80px;">
+                <h4>AadharDetails</h4>
+                <p><label>Full Name:</label> <input type="text" name="fullname" autocomplete="off" required></p>
+                <p><label>Gardian Type:</label> <select name="gardian_type" required>
+                    <option value="S/O">S/O</option>
+                    <option value="D/O">D/O</option>
+                    <option value="W/O">W/O</option>
+                </select></p>
+                <p><label>Gardian Name:</label> <input type="text" name="gardian_name" autocomplete="off" required></p>
+                <p><label>Aadhar Number:</label> <input type="number" name="aadhar_number" autocomplete="off" required></p>
+                <p><label>Date Of Brith:</label> <input type="date" name="DOB" required></p>
+                <p><label>Gender: </label> <input type="radio" value="male" required="required" name="gender">Male <input type="radio" value="female" required="required" name="gender">Female</p>
+                <p><label>D. No:</label> <input type="text" name="door_number" autocomplete="off" required></p>
+                <p><label>Street</label> <input type="text" name="street" autocomplete="off" required></p>
+                <p><label>City: </label> <input type="text" name="city" autocomplete="off" required></p>
+                <p><label>State: </label> <select name="state">
+                    {% for state in states %}
+                        <option value="{{state.State_Name}}">{{state.State_Name}}</option>
+                    {% endfor %}
+                </select></p>
+                <p><label>Pin Code:</label> <input type="text" name="pincode" autocomplete="off" required></p>
+                <p><label>Pnone Number:</label> <input type="number" name="phone_number" autocomplete="off" required></p>
+                <p><label>Profile Pic:</label> <input type="file" name="profile_pic" required></p>
+                <hr>
+                <h4>Voter Details</h4>
+                <p><label>Voter Id</label> <input type="text" name="voter_id" autocomplete="off" required></p>
+                <p><label>Part No</label> <input type="number" name="part_no" autocomplete="off" required></p>
+                <p><label>Part Name</label> <input type="text" name="part_name" autocomplete="off" required></p>
+                <p><label>Constituency No</label> <input type="number" name="constituency_no" autocomplete="off" required></p>
+                <p><label>Constituency Name</label> <select name="constituency_name" autocomplete="off" required>
+                    {% for constituency in constituencies %}
+                        <option value="{{constituency.Consistituent_Name}}">{{constituency.Consistituent_Name}}</option>
+                    {% endfor %}
+                </select></p>
+            </div>
+            <div class="card-footer" style="padding-left: 80px;">
+                <input type="submit" value="Add" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

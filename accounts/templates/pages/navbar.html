@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #93E9BE;color:black;">
+    <!-- Brand/logo -->
+    <a class="navbar-brand" href="">Hello {% if user.is_staff %}{{request.user.username}}{% else %}{{aadhar_details.FullName}}{% endif %}!</a>
+    <!-- Links -->
+    <ul class="navbar-nav" style="position: absolute;right:50px;">
+      <li class="nav-item">
+        <a class="nav-link" {% if authenticate %}style="pointer-events: none;"{% endif %} href="{% url 'home' %}">Home</a>
+      </li>
+      {% if not user.is_staff %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' %}" {% if authenticate %}style="pointer-events: none;"{% endif %}>Profile</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pollster' %}">Create a pollster</a>
+      </li>
+      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      </li>
+
+    </ul>
+  </nav>

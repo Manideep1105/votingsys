@@ -1,0 +1,23 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block body %}
+
+<div class="card">
+    <div class="card-header text-center">
+        <h3>{{poll.text}} {% if not poll.active %}Has Been Ended{% endif %}</h3>
+    </div>
+    <div class="card-body">
+        {% for choice in candidates %}
+        <div class="cho" style="border: 0.5px solid black;height: 40px;">
+            {{choice.Candidate_Name}}
+            <span class="badge badge-primary">{{choice.Votes_Obtained}}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="card-footer">
+        <a href="{% url 'home' %}" class="btn btn-warning mt-3">Back</a>
+    </div>
+</div>
+
+{% endblock %}

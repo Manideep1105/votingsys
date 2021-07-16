@@ -1,0 +1,84 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %}Choice{% endblock %}
+{% block body %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            {% if edit_candidate %}
+            <h2>Edit Candidate</h2>
+            {% else %}
+            <h2>Add Candidate</h2>
+            {% endif %}
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body">
+                <p>Candidate Name</p>
+                <input type="text" name="candidate_name" required autocomplete="off" value="{{candidate.Candidate_Name}}">
+                <p>constituency:</p>
+                <select name="constituency_name">
+                    {% for constituency in constituencies %}
+                        <option value="{{constituency.Consistituent_Name}}" {% if candidate.Constituency_id == constituency.id %}selected{% endif %}>{{constituency.Consistituent_Name}}</option>
+                    {% endfor %}
+                </select>
+                {% if edit_candidate %}
+                {% else %}
+                <hr>
+                <input type="checkbox" name="is_individual" value="yes" {% if candidate.Candidate_Type == 'independent' %}checked{% endif %} id="independent" onclick="isIndependent()"> <label>Is The Candidate is Independent</label>
+                <hr>
+                {% endif %}
+                <p id="party_label" {% if candidate.Candidate_Type == 'independent' %}style="display: none;"{% else %}style="display: block;"{% endif %}>Select Party Name:</p>
+                <select name="candidate_party" id="party_name" {% if candidate.Candidate_Type == 'independent' %}style="display: none;"{% else %}style="display: block;"{% endif %}>
+                    {% for party in parties %}
+                        <option value="{{party.Party_Name}}" {% if candidate.Party == party.Party_Name %}selected{% endif %}>{{party.Party_Name}}</option>
+                    {% endfor %}
+                </select>
+                <p id="independent_party_label" {% if candidate.Candidate_Type == 'independent' %}style="display: block;"{% else %}style="display: none;"{% endif %}>Independent Party Name:</p>
+                <input type="text" name="independent_candidate_party" value="{{candidate.Party}}" {% if candidate.Candidate_Type == 'independent' %}style="display: block;"{% else %}style="display: none;"{% endif %} id="independent_party" autocomplete="off">
+                <p id="party_image_label" {% if candidate.Candidate_Type == 'independent' %}style="display: block;"{% else %}style="display: none;"{% endif %}>Upload Independent Party Image:</p>
+                <input type="file" name="independent_party_image" value="{{candidate.Party_PIC.url}}" id="party_image_upload" {% if candidate.Candidate_Type == 'independent' %}style="display: block;"{% else %}style="display: none;"{% endif %}>{% if edit_candidate %}{% if candidate.Candidate_Type == 'independent' %}<label>Upload the image again before clicking Update</label>{% endif %}{% endif %}
+            </div>
+            <div class="card-footer">
+                {% if edit_candidate %}
+                    <input type="submit" value="Update Candidate" class="btn btn-primary mt-3">
+                    <a href="{% url 'candidate_delete' candidate.id %}" class="btn btn-danger mt-3" role="button" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                    <a href="{% url 'edit' poll.id %}" class="btn btn-info mt-3">Cancel</a>
+                {% else %}
+                    <input type="submit" value="Add Candidate" class="btn btn-primary mt-3">
+                    <a href="{% url 'edit' poll.id %}" class="btn btn-info mt-3">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function isIndependent(){
+        var independent = document.getElementById("independent");
+        var party_name = document.getElementById("party_name");
+        var party_label = document.getElementById("party_label");
+        var independent_party_label = document.getElementById("independent_party_label");
+        var independent_party = document.getElementById("independent_party");
+        var party_image_label = document.getElementById("party_image_label");
+        var party_image_upload = document.getElementById("party_image_upload");
+        if(independent.checked==true){
+            party_name.style.display = "none";
+            party_label.style.display = "none";
+            independent_party_label.style.display = "block";
+            independent_party.style.display = "block";
+            party_image_label.style.display = "block";
+            party_image_upload.style.display = "block";
+        }else{
+            party_name.style.display = "block";
+            party_label.style.display = "block";
+            independent_party_label.style.display = "none";
+            independent_party.style.display = "none";
+            party_image_label.style.display = "none";
+            party_image_upload.style.display = "none";
+        }
+    }
+</script>
+
+{% endblock %}

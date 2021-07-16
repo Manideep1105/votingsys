@@ -1,0 +1,81 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}Email Authenticate{% endblock %}
+{% block body %}
+    <div class="container-fluid" width="100%" style="position: absolute;height: 100%;" overflow="hidden">
+        <div class="loginbox">
+            <div class="main">
+                You cannot change your mail again(for every login we send otp for this email)
+                <hr>
+                <form method="post">
+                    {% csrf_token %}
+                        {% if messages %}
+                        {% for i in messages %}
+                        <div class="alert alert-{{i.tags}} alert-dismissible" data-clossable>
+                            {{i}}
+                            <button type="button" class="close" data-dismiss="alert" data-close>&times;</button>
+                        </div>
+                        {% endfor %}
+                        <hr>
+                        {% endif %}
+                    <p>Enter Otp:</p>
+                    <input type="number" name="otp" required="required" autocomplete="off">
+                    <input type="submit" value="submit">
+                </form>
+            </div>
+        </div>
+
+        <style>
+            .loginbox{
+                width: 320px;
+                background: white;
+                top: 50%;
+                left: 50%;
+                position: absolute;
+                transform: translate(-50%,-50%);
+                box-sizing: border-box;
+                padding: 50px 30px;
+                border: 1px solid black;
+                border-radius: 25px;
+            }
+            .header h1{
+                margin: 0;
+                padding: 0 0 20px;
+                text-align: center;
+                font-size: 30px;
+            }
+            .loginbox p{
+                margin: 0;
+                padding: 0;
+                font-weight: bold;
+            }
+            .loginbox input{
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .loginbox input[type="text"],input[type="number"]{
+                border: none;
+                border-bottom: 1px solid black;
+                background: transparent;
+                outline: none;
+                height: 30px;
+                font-size: 16px;
+            }
+            .loginbox input[type="submit"]{
+                border: none;
+                outline: none;
+                height: 40px;
+                background: #93E9BE;
+                font-size: 18px;
+                border-radius: 20px;
+            }
+            .loginbox input[type="submit"]:hover{
+                cursor: pointer;
+                background: rgba(0,0.6,0,0.3);
+                transition:0.4s;
+            }
+        </style>
+
+    </div>  
+{% endblock %}

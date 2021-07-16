@@ -1,0 +1,71 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %}Vote Cast{% endblock %}
+{% block body %}
+
+<div class="container">
+    {% if messages %}
+    {% for i in messages %}
+    <div class="alert alert-{{i.tags}} alert-dismissible" data-clossable>
+        {{i}}
+        <button type="button" class="close" data-dismiss="alert" data-close>&times;</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="card">
+        <div class="card-header">
+            <h2>Cast Your Vote</h2>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="img" style="width: 160px;">
+                        <div class="image-holder" style="width: 140px;padding-left: 20px;height: 140px;padding-top: 20px;">
+                            {% for state in states %}
+                                {% if state.id == poll.Poll_State_id %}
+
+                                    {% with stateimage=state.State_Image %}
+                                        <img src="{{stateimage.url}}" alt="" height="100%" width="100%">
+                                    {% endwith %}
+                                    {{break}}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="desc" style="padding-left: 30px;">
+                        
+                        <h1>{{poll.Poll_Description}}</h1>
+                        <hr>
+                        <h4>{{state.State_Name}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="padding: 20px;">
+            <h5>Candidates</h5>
+            <p>Click on Candidate to select Candidate</p>
+            <hr>
+            <div class="candidates" style="width: 100%;padding-left: 70px;padding-right: 50px;">
+                <div class="container">
+                    {% for candidate in candidates %}
+                    <a href="{% url 'authentidate_face' candidate.id %}" style="color: black;text-decoration: none;">
+                        <div class="row" style="padding-left: 30px;padding-right: 30px;">
+                            <div class="pic" style="position: relative;border: 1px lightgrey solid;height: 90px;width: 90px;top: 20px;left: 20px;">
+                                <img src="{{candidate.Party_PIC.url}}" alt="" height="100%" width="100%">
+                            </div>
+                            <div class="polldescription" style="padding: 20px;position: relative;top: 10px;left: 20px;">
+                                <h5><u>Candidate</u>: {{candidate.Candidate_Name}}</h5>
+                                <h6><u>Party Name</u>: {{candidate.Party}}</h6>
+                                
+                            </div>
+                        </div>
+                    </a>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
